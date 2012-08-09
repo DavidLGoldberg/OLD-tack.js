@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>_w_atch.js Test</title>
+    </head>
+    <body>
+        <div data-view="widget1">One</div>
+        <div data-view="widget2">Two</div>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="_w_atch.js"></script>
+
+        <script>
+            //////// Views /////////////
+            var widget1 = function($elem){ // VIEWS ARE JUST REGULAR JS FUNCTIONS
+                $elem.css('width', _w_.width);
+            };
+
+            var widget2 = function($elem){
+                $elem.css('height', _w_.height);
+            };
+
+            $(function() {
+
+                _w_.init(
+                {
+                    data: {width: 50, height: 50}, // Or pull this obj from ajax etc.
+                    debug: true,
+                    global: function($elem) { // run on all views
+                        $elem.css('background-color', 'green');
+                    }
+                }); 
+
+                _w_.width = 400;
+                _w_.height = 400;
+            });
+        </script>
+    </body>
+</html>
