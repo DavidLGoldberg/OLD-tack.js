@@ -3,11 +3,11 @@
         <title>watch.js Test</title>
     </head>
     <body>
-        <div data-view="widget1">One</div>
+        <div data-view="widget1"></div>
         <hr/>
-        <div data-view="widget2">Two</div>
+        <div data-view="widget2"></div>
         <hr/>
-        <div data-view="widget3">Three</div>
+        <div data-view="widget3"></div>
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="watch.js"></script>
@@ -19,12 +19,15 @@
                 // RENDERINGS ARE JUST REGULAR JS FUNCTIONS
                 widget1: function($w, $elem) { 
                     $elem.css('background-color', $w.topColor);
+                    $elem.html($w.one);
                 },
                 widget2: function($w, $elem) {
                     $elem.css('background-color', $w.bottomColor);
+                    $elem.html($w.two);
                 },
                 widget3: function($w, $elem) {
                     $elem.css('background-color', $w.bottomColor);
+                    $elem.html($w.three);
                 }
             }
 
@@ -32,11 +35,17 @@
 
                 $w.init(
                 {
-                    data: {topColor: 'red', bottomColor: 'red'}, // Or pull this obj from ajax etc.
+                    data: {
+                        topColor: 'red',
+                        bottomColor: 'red',
+                        one: 'One',
+                        two: 'Two',
+                        three: 'Three'
+                    }, // Or pull this obj from ajax etc.
                     renderings: renderings,
                     debug: true,
                     globalSetup: function($elem) { // run on all views
-                        $elem.css('background-color', 'black');
+                        $elem.css({height: '30px', backgroundColor: 'black'});
                     }
                 }); 
 
@@ -44,6 +53,11 @@
                 $w.topColor = 'blue';
                 alert('the second colors will now change due to variable change');
                 $w.bottomColor = 'green';
+
+                alert('do some more in different orders...');
+                $w.two = "222";
+                $w.three = "333";
+                $w.one = "111";
             });
         </script>
     </body>
