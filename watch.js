@@ -55,51 +55,61 @@ if (!Object.prototype.unwatch) {
 		}
 	});
 }
+// End Polyfill--------------------------------------------
 
+var $w = {};
 
-
-var _w_ = {};
-
-_w_.init = function(options) {
+$w.init = function(options) {
 
     var settings = $.extend({
         debug: false,
-        global: null,
+        globalSetup: null,
+        renderings: [],
         data: {}
     }, options); 
 
-    $views = $('body').find('[data-view]');
+    $w = $.extend($w, settings.data);
 
-    _w_ = $.extend(_w_, settings.data);
+    $('body').find('[data-view]')
+        .each(function() {
+            var $this = $(this);
+            var $view = $this.data('view');
 
-    for (var prop in _w_)
+            if (typeof settings.globalSetup === 'function') { 
+                if (settings.debug) {
+                    alert($view +': globalSetup run');
+                }
+                settings.globalSetup($this);
+            }
+
+            if (settings.debug) {
+                alert($view +': initial run');
+            }
+            settings.renderings[$view]($this);
+        })
+
+    for (var prop in settings.data)
     {
         // Use native or polly filled .watch
-        _w_.watch(prop, function (key, oldval, newval) {
-            $views.each(function() {
-                //Todo: fire only the ones you need to from inspection?
-                $(this).trigger('model-change', [key, oldval, newval]); 
-            });
-            return newval;
-        });
-    }
-
-    $views
-        .each(function() {
-            if (typeof settings.global === 'function') { 
-                settings.global($(this));
-            }
-        })
-        .on('model-change', function(event, key, oldval, newval) {
-            //Run view:
-            window[$(this).data('view')]($(this));
-
+        $w.watch(prop, function (key, oldval, newval) {
+            
             if (settings.debug) {
                 console.log(key + " changed from " + oldval + " to " + newval);
             }
 
-            if (settings.debug) {
-                console.log('view: ' + $(this).data('view') + ' called');
+            for (var viewName in settings.renderings)
+            {
+                //debugger;
+                // Run rendering: // Todo: fire only the renderings you need to from inspection? don't want to do a dependency list...what are the real performance numbers from overhead...etc..
+                settings.renderings[viewName]($('[data-view=' + viewName + ']'));
+
+                if (settings.debug) {
+                    alert('here b4 second colors');
+                    console.log('rendering: ' + viewName + ' called');
+                }
             }
+
+            return newval;
         });
+    }
 };

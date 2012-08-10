@@ -1,37 +1,44 @@
 <html>
     <head>
-        <title>_w_atch.js Test</title>
+        <title>watch.js Test</title>
     </head>
     <body>
         <div data-view="widget1">One</div>
+        <hr/>
         <div data-view="widget2">Two</div>
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script src="_w_atch.js"></script>
+        <script src="watch.js"></script>
 
         <script>
             //////// Views /////////////
-            var widget1 = function($elem){ // VIEWS ARE JUST REGULAR JS FUNCTIONS
-                $elem.css('width', _w_.width);
-            };
-
-            var widget2 = function($elem){
-                $elem.css('height', _w_.height);
-            };
+            var renderings =  
+            {
+                // RENDERINGS ARE JUST REGULAR JS FUNCTIONS
+                widget1: function($elem) { 
+                    $elem.css('background-color', $w.topColor);
+                },
+                widget2: function($elem) {
+                    $elem.css('background-color', $w.bottomColor);
+                }
+            }
 
             $(function() {
 
-                _w_.init(
+                $w.init(
                 {
-                    data: {width: 50, height: 50}, // Or pull this obj from ajax etc.
-                    debug: true,
-                    global: function($elem) { // run on all views
-                        $elem.css('background-color', 'green');
+                    data: {topColor: 'red', bottomColor: 'red'}, // Or pull this obj from ajax etc.
+                    renderings: renderings,
+                    debug: false,
+                    globalSetup: function($elem) { // run on all views
+                        $elem.css('background-color', 'black');
                     }
                 }); 
 
-                _w_.width = 400;
-                _w_.height = 400;
+                //alert('the first colors will now change due to variable change');
+                $w.topColor = 'green';
+                //alert('the second colors will now change due to variable change');
+                $w.bottomColor = 'green';
             });
         </script>
     </body>
