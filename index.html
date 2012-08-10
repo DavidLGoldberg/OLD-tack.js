@@ -6,6 +6,8 @@
         <div data-view="widget1">One</div>
         <hr/>
         <div data-view="widget2">Two</div>
+        <hr/>
+        <div data-view="widget3">Three</div>
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="watch.js"></script>
@@ -15,10 +17,13 @@
             var renderings =  
             {
                 // RENDERINGS ARE JUST REGULAR JS FUNCTIONS
-                widget1: function($elem) { 
+                widget1: function($w, $elem) { 
                     $elem.css('background-color', $w.topColor);
                 },
-                widget2: function($elem) {
+                widget2: function($w, $elem) {
+                    $elem.css('background-color', $w.bottomColor);
+                },
+                widget3: function($w, $elem) {
                     $elem.css('background-color', $w.bottomColor);
                 }
             }
@@ -29,15 +34,15 @@
                 {
                     data: {topColor: 'red', bottomColor: 'red'}, // Or pull this obj from ajax etc.
                     renderings: renderings,
-                    debug: false,
+                    debug: true,
                     globalSetup: function($elem) { // run on all views
                         $elem.css('background-color', 'black');
                     }
                 }); 
 
-                //alert('the first colors will now change due to variable change');
-                $w.topColor = 'green';
-                //alert('the second colors will now change due to variable change');
+                alert('the first colors will now change due to variable change');
+                $w.topColor = 'blue';
+                alert('the second colors will now change due to variable change');
                 $w.bottomColor = 'green';
             });
         </script>

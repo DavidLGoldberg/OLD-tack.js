@@ -85,7 +85,7 @@ $w.init = function(options) {
             if (settings.debug) {
                 alert($view +': initial run');
             }
-            settings.renderings[$view]($this);
+            settings.renderings[$view]($w, $this);
         })
 
     for (var prop in settings.data)
@@ -99,12 +99,13 @@ $w.init = function(options) {
 
             for (var viewName in settings.renderings)
             {
-                //debugger;
+                var w = $.extend({}, $w);
+                w[key] = newval;
+
                 // Run rendering: // Todo: fire only the renderings you need to from inspection? don't want to do a dependency list...what are the real performance numbers from overhead...etc..
-                settings.renderings[viewName]($('[data-view=' + viewName + ']'));
+                settings.renderings[viewName](w, $('[data-view=' + viewName + ']'));
 
                 if (settings.debug) {
-                    alert('here b4 second colors');
                     console.log('rendering: ' + viewName + ' called');
                 }
             }
