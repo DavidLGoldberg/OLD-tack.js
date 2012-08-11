@@ -60,7 +60,7 @@ if (!Object.prototype.unwatch) {
 var $w = {};
 
 var bindAllInputs = function() {
-    $('input[data-w]').on('change', function(e) {
+    $('input[data-w]').on('keyup keydown', function(e) {
         $w[$(this).data('w')] = $(e.target).val();
     });
 };
