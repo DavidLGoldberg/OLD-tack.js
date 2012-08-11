@@ -59,6 +59,12 @@ if (!Object.prototype.unwatch) {
 
 var $w = {};
 
+var bindAllInputs = function() {
+    $('input[data-w]').on('change', function(e) {
+        $w[$(this).data('w')] = $(e.target).val();
+    });
+};
+
 $w.init = function(options) {
 
     var settings = $.extend({
@@ -131,4 +137,6 @@ $w.init = function(options) {
             return newval;
         });
     }
+
+    bindAllInputs();
 };
