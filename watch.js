@@ -88,8 +88,23 @@ $w.init = function(options) {
             settings.renderings[$view]($w, $this);
         })
 
+    var renderingDependencies = {};
+
     for (var prop in settings.data)
     {
+        // Automatically detect dependencies:
+        for (var rendering in settings.renderings) {
+            var dependencies = [];
+            if (settings.renderings[rendering].toString().indexOf('$w.' + prop) > -1) {
+                dependencies.push(prop);
+            }
+
+            if (renderingDependencies[rendering])
+                $.merge(renderingDependencies[rendering], dependencies);
+            else
+                renderingDependencies[rendering] = dependencies;
+        }
+
         // Use native or polly filled .watch
         $w.watch(prop, function (key, oldval, newval) {
             
@@ -102,11 +117,14 @@ $w.init = function(options) {
                 var w = $.extend({}, $w);
                 w[key] = newval;
 
-                // Run rendering: // Todo: fire only the renderings you need to from inspection? don't want to do a dependency list...what are the real performance numbers from overhead...etc..
-                settings.renderings[viewName](w, $('[data-view=' + viewName + ']'));
+                // check if rendering needs to be fired
+                if ($.inArray(key, renderingDependencies[viewName]) > -1) { 
+                    // Run rendering: 
+                    settings.renderings[viewName](w, $('[data-view=' + viewName + ']'));
 
-                if (settings.debug) {
-                    console.log('rendering: ' + viewName + ' called');
+                    if (settings.debug) {
+                        console.log('rendering: ' + viewName + ' called');
+                    }
                 }
             }
 
