@@ -100,16 +100,18 @@ $w.init = function(options) {
     {
         // Automatically detect dependencies:
         for (var rendering in settings.renderings) {
-            var dependencies = [];
+            var dependency;
             if (settings.renderings[rendering].toString().indexOf('$w.' + prop) > -1) {
-                dependencies.push(prop);
+                dependency = prop;
             }
 
-            if (renderingDependencies[rendering])
-                $.merge(renderingDependencies[rendering], dependencies);
-            else
-                renderingDependencies[rendering] = dependencies;
-        }
+	    if (renderingDependencies[rendering]) {
+	        renderingDependencies[rendering].push(dependency);
+	    }
+	    else {
+	        renderingDependencies[rendering] = new Array(dependency);
+	    }
+	}
 
         // Use native or polly filled .watch
         $w.watch(prop, function (key, oldval, newval) {
