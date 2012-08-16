@@ -1,7 +1,7 @@
 window.TACK = {};
 
 var bindAllInputs = function() {
-    $('input[data-w]').on('keydown keyup', function(e) {
+    $(':input[data-tack-val]').on('keydown keyup', function(e) {
         TACK[$(this).data('tack-val')] = $(e.target).val();
     });
 };
@@ -14,16 +14,6 @@ TACK.init = function(options) {
     }, options); 
 
     TACK = $.extend(TACK, settings.data);
-
-    $('body').find('[data-view]')
-        .each(function() {
-            var $this = $(this);
-            var $view = $this.data('view');
-
-            if (settings.debug) {
-                alert($view +': initial run');
-            }
-        })
 
     for (var prop in settings.data)
     {
