@@ -3,39 +3,41 @@
         <title>watch.js Test</title>
     </head>
     <body>
-        <div data-view="widget1"></div>
+        <div data-tack-view="widget1"></div>
         <hr/>
-        <div data-view="widget2"></div>
+        <div data-tack-view="widget2"></div>
         <hr/>
-        <div data-view="widget3"></div>
+        <div data-tack-view="widget3"></div>
 
-        <input data-w="one"></input>
+        <input data-tack-val="one"></input>
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="watch.js"></script>
         <script src="tack.js"></script>
 
         <script>
-            var renderings =  
-            {
-                // RENDERINGS ARE JUST REGULAR JS FUNCTIONS
-                widget1: function($w, $elem) { 
-                    $elem.css('background-color', $w.topColor);
-                    $elem.html($w.one);
-                },
-                widget2: function($w, $elem) {
-                    $elem.css('background-color', $w.bottomColor);
-                    $elem.html($w.two);
-                },
-                widget3: function($w, $elem) {
-                    $elem.css('background-color', $w.bottomColor);
-                    $elem.html($w.three);
-                }
-            }
+            // Global
+            $('[data-tack-view]').on('tack-change', function(e, data){
+                $(e.target).css({height: '30px', backgroundColor: 'black'});
+            });
+
+            // Individual handlers
+            $('[data-tack-view=widget1]').on('tack-change', function(e, data){
+                $(this).css('background-color', TACK.topColor);
+                $(this).html(TACK.one);
+            });
+            $('[data-tack-view=widget2]').on('tack-change', function(e, data){
+                $(this).css('background-color', TACK.bottomColor);
+                $(this).html(TACK.two);
+            });
+            $('[data-tack-view=widget3]').on('tack-change', function(e, data){
+                $(this).css('background-color', TACK.bottomColor);
+                $(this).html(TACK.three);
+            });
 
             $(function() {
 
-                $w.init(
+                TACK.init(
                 {
                     data: {
                         topColor: 'red',
@@ -44,22 +46,18 @@
                         two: 'Two',
                         three: 'Three'
                     }, // Or pull this obj from ajax etc.
-                    renderings: renderings,
-                    debug: false,
-                    globalSetup: function($elem) { // run on all views
-                        $elem.css({height: '30px', backgroundColor: 'black'});
-                    }
+                    debug: true,
                 }); 
 
                 alert('the first colors will now change due to variable change');
-                $w.topColor = 'blue';
+                TACK.topColor = 'blue';
                 alert('the second colors will now change due to variable change');
-                $w.bottomColor = 'green';
+                TACK.bottomColor = 'green';
 
                 alert('do some more in different orders...');
-                $w.two = "222";
-                $w.three = "333";
-                $w.one = "111";
+                TACK.two = "222";
+                TACK.three = "333";
+                TACK.one = "111";
             });
         </script>
     </body>
