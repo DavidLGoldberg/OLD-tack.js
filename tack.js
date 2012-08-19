@@ -24,8 +24,9 @@ TACK.init = function(options) {
                 console.log(key + " changed from " + oldval + " to " + newval);
             }
 
-            var newData = settings.data;
+            var newData = {};
             newData[key] = newval;
+            newData = $.extend({}, TACK, newData);
 
             $('[data-tack-view]').trigger('tack-change', [newData]);
 

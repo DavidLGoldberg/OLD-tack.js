@@ -23,16 +23,16 @@
 
             // Individual handlers
             $('[data-tack-view=widget1]').on('tack-change', function(e, data){
-                $(this).css('background-color', TACK.topColor);
-                $(this).html(TACK.one);
+                $(this).css('background-color', data.topColor);
+                $(this).html(data.one);
             });
             $('[data-tack-view=widget2]').on('tack-change', function(e, data){
-                $(this).css('background-color', TACK.bottomColor);
-                $(this).html(TACK.two);
+                $(this).css('background-color', data.bottomColor);
+                $(this).html(data.two);
             });
             $('[data-tack-view=widget3]').on('tack-change', function(e, data){
-                $(this).css('background-color', TACK.bottomColor);
-                $(this).html(TACK.three);
+                $(this).css('background-color', data.bottomColor);
+                $(this).html(data.three);
             });
 
             $(function() {
@@ -51,22 +51,28 @@
 
                 alert('the first colors will now change due to variable change');
                 TACK.topColor = 'blue';
+
                 alert('the second colors will now change due to variable change');
                 TACK.bottomColor = 'green';
 
                 alert('do some more in different orders...');
-                TACK.two = "222";
                 TACK.three = "333";
-                TACK.one = "111";
-                TACK.one = "211";
-                TACK.one = "311";
-                TACK.one = "411";
-                TACK.one = "511";
-                TACK.one = "611";
-                TACK.one = "711";
-                TACK.one = "811";
-                TACK.one = "911";
-                TACK.one = "aaaah!";
+
+                TACK.two = "222";
+
+                TACK.one = "1";
+                TACK.one = "2";
+                TACK.one = "3";
+                TACK.one = "4";
+                TACK.one = "5";
+                TACK.one = "6";
+                TACK.one = "7";
+                TACK.one = "8";
+
+                TACK.two = "222222222";
+
+                TACK.one = "9";
+                TACK.one = "Last One!";
             });
         </script>
     </body>
