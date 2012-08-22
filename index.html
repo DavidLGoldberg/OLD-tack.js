@@ -18,21 +18,24 @@
         <script>
             // Global
             $('[data-tack-view]').on('tack-change', function(e, data){
-                $(e.target).css({height: '30px', backgroundColor: 'black'});
+                $(this).css({height: '30px', backgroundColor: 'black'});
             });
 
             // Individual handlers
             $('[data-tack-view=widget1]').on('tack-change', function(e, data){
-                $(this).css('background-color', data.topColor);
-                $(this).html(data.one);
+                $(e.target)
+                    .css('background-color', data.topColor)
+                    .html(data.one);
             });
             $('[data-tack-view=widget2]').on('tack-change', function(e, data){
-                $(this).css('background-color', data.bottomColor);
-                $(this).html(data.two);
+                $(e.target)
+                    .css('background-color', data.bottomColor)
+                    .html(data.two);
             });
             $('[data-tack-view=widget3]').on('tack-change', function(e, data){
-                $(this).css('background-color', data.bottomColor);
-                $(this).html(data.three);
+                $(e.target)
+                    .css('background-color', data.bottomColor)
+                    .html(data.three);
             });
 
             $(function() {
